@@ -55,5 +55,5 @@ preprocess_participant <- function(pth){
   }
 
   return(list(hr = df_hr, rmsdd = df_rmsdd, rri = df_rri,
-              sndd = df_sdnn))
+              sdnn = df_sdnn))
 }

@@ -9,10 +9,11 @@ df_rri <- read.csv(file.path(participant_path, "rri.csv"))
 df_rmsdd <- read.csv(file.path(participant_path, "RMSSD.csv"))
 df_sdnn <- read.csv(file.path(participant_path, "SDNN.csv"))
 df_hr <- read.csv(file.path(participant_path, "hr.csv"))
+
 ls_session <- jsonlite::fromJSON(file.path(participant_path, "sessionData.json"))
 df_markers <- ls_session$manualMarkers
 
-# This is using dplyr syntax, could be done withh base R as well, just be longer
+# This is using dplyr syntax, could be done with base R as well, just be longer
 df_markers <- filter(df_markers, grepl("Video", message)) %>%
   select(-label) # keeps only video rows
 df_markers <- mutate(df_markers, message = gsub("Video ", "", message))
@@ -30,7 +31,8 @@ df_markers <- mutate(df_markers, video = paste0("video", i_video))
 df_hr <- add_video_label(df_hr)
 df_rmsdd <- add_video_label(df_rmsdd)
 df_rri <- add_video_label(df_rri)
-df_sdnn  <- add_video_label(df_sdnn) 
+df_sdnn  <- add_video_label(df_sdnn)
+
 for(i in 1:nrow(df_markers)){
   video_info <- df_markers[i,]
   df_hr <- mark_video(df_hr, video_info$Start, video_info$End, video_info$video)

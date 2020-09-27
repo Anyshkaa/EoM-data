@@ -1,5 +1,5 @@
 add_video_label <- function(dat, baseline="baseline"){
-  dat$video <- "baseline"
+  dat$video <- NA_character_
   return(dat)
 }
 
@@ -38,6 +38,14 @@ preprocess_participant <- function(pth){
                             names_from=c("Action"))
   
   df_markers <- mutate(df_markers, video = paste0("video", i_video))
+  df_baseline <- data.frame(Start = 0, End = df_markers$Start[1],
+                            video="baseline", i_video=NA_integer_)
+  df_rests <- data.frame(Start = df_markers$End[1:3], 
+                         End = df_markers$Start[2:4],
+                         video = paste0("rest", 1:3),
+                         i_video = rep(NA, 3))
+  
+  df_markers <- rbind(df_markers, df_rests, df_baseline)
   
   #' add_video_label and mark_video are custom functions 
   #' so there is less repetition and less errors
